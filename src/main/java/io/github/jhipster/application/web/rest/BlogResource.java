@@ -2,7 +2,6 @@ package io.github.jhipster.application.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.application.domain.Blog;
-
 import io.github.jhipster.application.repository.BlogRepository;
 import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.application.web.rest.util.HeaderUtil;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -87,7 +85,7 @@ public class BlogResource {
     @Timed
     public List<Blog> getAllBlogs() {
         log.debug("REST request to get all Blogs");
-        return blogRepository.findAll();
+        return blogRepository.findByUserIsCurrentUser();
         }
 
     /**

@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.application.domain.Entry;
 
 import io.github.jhipster.application.repository.EntryRepository;
+import io.github.jhipster.application.security.SecurityUtils;
 import io.github.jhipster.application.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.application.web.rest.util.HeaderUtil;
 import io.github.jhipster.application.web.rest.util.PaginationUtil;
@@ -93,7 +94,8 @@ public class EntryResource {
     @Timed
     public ResponseEntity<List<Entry>> getAllEntries(Pageable pageable) {
         log.debug("REST request to get a page of Entries");
-        Page<Entry> page = entryRepository.findAll(pageable);
+        Page<Entry> page = entryRepository.findByBlogUserLoginOrderByDateDesc(
+            SecurityUtils.getCurrentUserLogin().orElse(null), pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/entries");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
